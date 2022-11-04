@@ -5,6 +5,9 @@ public class Program
     {
         IsBalanced("{ ( < > ) }");  // true
         IsBalanced("<> {(})");      // false
+
+
+        Console.WriteLine( Evaluate(" 2 2 +") );
     }
 
     public static bool IsBalanced(string s)
@@ -83,7 +86,7 @@ public class Program
     public static double? Evaluate(string s)
     {
 
-        Stack<char> stack = new Stack<char>();
+        Stack<string> stack = new Stack<string>();
         // parse string into tokens
         string[] tokens = s.Split();
         
@@ -95,13 +98,11 @@ public class Program
         foreach(var c in tokens)
         {
 
-            int numericValue;
-            bool isNumber = int.TryParse(c, out numericValue);
+            double numericValue;
+            bool isNumber = double.TryParse(c, out numericValue);
             if (isNumber == true)
             {
-                char ch = Convert.ToChar(numericValue);
-                stack.Push(ch);
-                
+                stack.Push(numericValue.ToString());  
             }
             //else if (isNumber == false && (stack.Count == 0 || stack.Count == 1))
             //{
@@ -111,24 +112,34 @@ public class Program
             {
                 if (c == "+")
                 {
+                    double x = Convert.ToDouble(stack.Pop());
+                    double y = Convert.ToDouble(stack.Pop());
 
-                    stack.Push(Convert.ToChar(Convert.ToInt32(stack.Pop()) + Convert.ToInt32(stack.Pop())));
+                    stack.Push((y + x).ToString());
+
+                    
                 }
                 else if (c == "-")
                 {
-                    stack.Push(Convert.ToChar((Convert.ToInt32(stack.Pop()) * -1) + Convert.ToInt32(stack.Pop())));
+                    double x = Convert.ToDouble(stack.Pop());
+                    double y = Convert.ToDouble(stack.Pop());
+
+                    stack.Push((y - x).ToString());
                 }
                 else if (c == "*")
                 {
 
-                    stack.Push(Convert.ToChar(Convert.ToInt32(stack.Pop()) * Convert.ToInt32(stack.Pop())));
+                    double x = Convert.ToDouble(stack.Pop());
+                    double y = Convert.ToDouble(stack.Pop());
+
+                    stack.Push((y * x).ToString());
                 }
                 else if (c == "/")
                 {
-                    int x = Convert.ToInt32(stack.Pop());
-                    int y = Convert.ToInt32(stack.Pop());
+                    double x = Convert.ToDouble(stack.Pop());
+                    double y = Convert.ToDouble(stack.Pop());
 
-                    stack.Push(Convert.ToChar(y / x));
+                    stack.Push((y / x).ToString());
                     
                 }
             }
@@ -143,7 +154,7 @@ public class Program
 
         if (stack.Count == 1)
         {
-            int x = stack.Peek();
+            double x = double.Parse( stack.Peek() );
             return x;
         }
         else

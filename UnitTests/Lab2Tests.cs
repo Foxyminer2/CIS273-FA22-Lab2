@@ -253,7 +253,7 @@ namespace DataStructures.Stack
 
         [TestMethod]
         public void Postfix8()
-        {
+         {
 
             Assert.AreEqual(1.0 / 6.0, Lab2.Program.Evaluate("51 32 + 82 - 6 /"));
         }
